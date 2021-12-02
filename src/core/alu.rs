@@ -16,5 +16,5 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 // }
 
 fn add (fu_data_i: &fu_data_t) -> u64 {
-    fu_data_i.operand_a + fu_data_i.operand_b
+    fu_data_i.get_operand_a() + fu_data_i.get_operand_b()
 }
