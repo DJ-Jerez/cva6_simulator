@@ -3,6 +3,7 @@
 
 const XLEN: u8 = 64;
 
+#[derive(Eq, PartialEq)]
 pub enum fu_op { //literally copy pasted from ariane_pkg
     // basic ALU op
     ADD, SUB, ADDW, SUBW,
