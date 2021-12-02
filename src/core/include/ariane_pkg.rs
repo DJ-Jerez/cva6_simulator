@@ -1,5 +1,4 @@
 // mod riscv_pkgs;
-#[derive(Debug)]
 
 const XLEN: u8 = 64;
 
