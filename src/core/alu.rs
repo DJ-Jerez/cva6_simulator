@@ -16,8 +16,8 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 
         // logic operations
         fu_op::XORL => {result = xorl(&fu_data_i)},
-        fu_op::ORL => {},
-        fu_op::ANDL => {},
+        fu_op::ORL => {result = orl(&fu_data_i)},
+        fu_op::ANDL => {result = andl(&fu_data_i)},
 
         // shifts
         fu_op::SRA => {},
@@ -56,11 +56,18 @@ fn add(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() + fu_data_i.get_operand_b()
 }
 
-fn sub(fu_data_i: &fu_data_t) -> u64 {
+fn sub(fu_data_i: &fu_data_t) -> u64 { //can't handle case where op_b is larger than op_a
     fu_data_i.get_operand_a() - fu_data_i.get_operand_b()
-    // 69
 }
 
 fn xorl(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() ^ fu_data_i.get_operand_b()
+}
+
+fn orl(fu_data_i: &fu_data_t) -> u64 {
+    fu_data_i.get_operand_a() | fu_data_i.get_operand_b()
+}
+
+fn andl(fu_data_i: &fu_data_t) -> u64 {
+    fu_data_i.get_operand_a() & fu_data_i.get_operand_b()
 }
