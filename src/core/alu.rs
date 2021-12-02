@@ -43,6 +43,9 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         SLTS => {},
         SLTU => {},
     }
+    else if fu_data_i.operator == fu_op::SUB {
+        result = sub(&fu_data_i);
+    }
     (result, false)
 }
 
@@ -52,6 +55,10 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 //     (5, true)
 // }
 
-fn add (fu_data_i: &fu_data_t) -> u64 {
+fn add(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() + fu_data_i.get_operand_b()
+}
+
+fn sub(fu_data_i: &fu_data_t) -> u64 {
+    fu_data_i.get_operand_a() - fu_data_i.get_operand_b()
 }
