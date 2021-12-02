@@ -1,7 +1,7 @@
 mod include;
 
-//adder lul
-fn tick (fu_data_i: fu_data_t) -> i64 {
+//adder lul (returns the result and alu_branch_res_o)
+fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 
-    69
+    (5, true)
 }
