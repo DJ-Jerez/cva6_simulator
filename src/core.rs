@@ -1,2 +1,2 @@
-mod alu;
+pub mod alu;
 mod include;
