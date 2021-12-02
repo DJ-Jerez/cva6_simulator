@@ -19,10 +19,21 @@ pub enum fu_op { //literally copy pasted from ariane_pkg
 
 pub struct fu_data_t {
     // fu: fu_t,
-    operator: fu_op,
-    operand_a: u64,
-    operand_b: u64,
-    imm: u64
+    pub operator: fu_op,
+    pub operand_a: u64,
+    pub operand_b: u64,
+    pub imm: u64
     // trans_id //what is this
 
+}
+
+impl fu_data_t {
+    pub fn new(Operator: fu_op, Oper_a: u64, Oper_b: u64, Imm: u64) -> fu_data_t{
+        fu_data_t{
+            operator: Operator,
+            operand_a: Oper_a,
+            operand_b: Oper_b,
+            imm: Imm
+        }
+    }
 }
