@@ -20,9 +20,9 @@ pub enum fu_op { //literally copy pasted from ariane_pkg
 pub struct fu_data_t {
     // fu: fu_t,
     pub operator: fu_op,
-    pub operand_a: u64,
-    pub operand_b: u64,
-    pub imm: u64
+    operand_a: u64,
+    operand_b: u64,
+    imm: u64
     // trans_id //what is this
 
 }
@@ -35,5 +35,21 @@ impl fu_data_t {
             operand_b: Oper_b,
             imm: Imm
         }
+    }
+
+    // pub fn get_operator(&self) -> fu_op {
+    //     return self.operator;
+        
+    // }
+    pub fn get_operand_a(&self) -> u64 {
+        self.operand_a
+    }
+
+    pub fn get_operand_b(&self) -> u64 {
+        self.operand_b
+    }
+
+    pub fn get_imm(&self) -> u64 {
+        self.imm
     }
 }
