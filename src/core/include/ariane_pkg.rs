@@ -20,9 +20,9 @@ pub enum fu_op { //literally copy pasted from ariane_pkg
 pub struct fu_data_t {
     // fu: fu_t,
     operator: fu_op,
-    operand_a: i64,
-    operand_b: i64,
-    imm: i64
+    operand_a: u64,
+    operand_b: u64,
+    imm: u64
     // trans_id //what is this
 
 }
