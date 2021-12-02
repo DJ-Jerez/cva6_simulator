@@ -8,43 +8,40 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
     //     result = add(&fu_data_i);
     // }
 
-    match fu_data_i.operator {
+    match &fu_data_i.operator {
         fu_op::ADD => {result = add(&fu_data_i)},
-        SUB => {},
-        ADDW => {},
-        SUBW => {},
+        fu_op::SUB => {result = sub(&fu_data_i)},
+        fu_op::ADDW => {},
+        fu_op::SUBW => {},
 
         // logic operations
-        XORL => {},
-        ORL => {},
-        ANDL => {},
+        fu_op::XORL => {result = xorl(&fu_data_i)},
+        fu_op::ORL => {},
+        fu_op::ANDL => {},
 
         // shifts
-        SRA => {},
-        SRL => {},
-        SLL => {},
-        SRLW => {},
-        SLLW => {},
-        SRAW => {},
+        fu_op::SRA => {},
+        fu_op::SRL => {},
+        fu_op::SLL => {},
+        fu_op::SRLW => {},
+        fu_op::SLLW => {},
+        fu_op::SRAW => {},
 
         // comparisons
-        LTS => {},
-        LTU => {},
-        GES => {},
-        GEU => {},
-        EQ => {},
-        NE => {},
+        fu_op::LTS => {},
+        fu_op::LTU => {},
+        fu_op::GES => {},
+        fu_op::GEU => {},
+        fu_op::EQ => {},
+        fu_op::NE => {},
 
         // jumps
-        JALR => {},
-        BRANCH => {},
+        fu_op::JALR => {},
+        fu_op::BRANCH => {},
 
         // set lower than operations
-        SLTS => {},
-        SLTU => {},
-    }
-    else if fu_data_i.operator == fu_op::SUB {
-        result = sub(&fu_data_i);
+        fu_op::SLTS => {},
+        fu_op::SLTU => {},
     }
     (result, false)
 }
@@ -61,4 +58,9 @@ fn add(fu_data_i: &fu_data_t) -> u64 {
 
 fn sub(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() - fu_data_i.get_operand_b()
+    // 69
+}
+
+fn xorl(fu_data_i: &fu_data_t) -> u64 {
+    fu_data_i.get_operand_a() ^ fu_data_i.get_operand_b()
 }
