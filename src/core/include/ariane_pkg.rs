@@ -1,4 +1,5 @@
 // mod riscv_pkgs;
+#[derive(Debug)]
 
 const XLEN: u8 = 64;
 
@@ -39,7 +40,7 @@ impl fu_data_t {
 
     // pub fn get_operator(&self) -> fu_op {
     //     return self.operator;
-        
+
     // }
     pub fn get_operand_a(&self) -> u64 {
         self.operand_a
