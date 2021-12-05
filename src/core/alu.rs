@@ -11,8 +11,8 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
     match &fu_data_i.operator {
         fu_op::ADD => {result = add(&fu_data_i)},
         fu_op::SUB => {result = sub(&fu_data_i)},
-        fu_op::ADDW => {},
-        fu_op::SUBW => {},
+        fu_op::ADDW => {result = addw(&fu_data_i) as u64},
+        fu_op::SUBW => {result = subw(&fu_data_i) as u64},
 
         // logic operations
         fu_op::XORL => {result = xorl(&fu_data_i)},
@@ -36,7 +36,7 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::NE => {},
 
         // jumps
-        fu_op::JALR => {},
+        fu_op::JALR => {}, //jump and link return; return current instruction + i
         fu_op::BRANCH => {},
 
         // set lower than operations
@@ -56,8 +56,40 @@ fn add(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() + fu_data_i.get_operand_b()
 }
 
-fn sub(fu_data_i: &fu_data_t) -> u64 { //can't handle case where op_b is larger than op_a
-    fu_data_i.get_operand_a() - fu_data_i.get_operand_b()
+fn sub(fu_data_i: &fu_data_t) -> u64 { //handles negative result case with two's compliment overflow
+    let op_a: u64 = fu_data_i.get_operand_a();
+    let op_b: u64 = fu_data_i.get_operand_b();
+    let b_comp: u64 = u64::MAX - op_b + 1;
+
+    //if op_a is larger than op_b, proceed as normal
+    if op_a >= op_b {
+        op_a - op_b
+    }
+    //if op_b is larger than op_a, add op_b's two's compliment instead
+    else {
+        op_a + b_comp
+    }
+}
+
+fn addw(fu_data_i: &fu_data_t) -> u32 {
+    let word_a = fu_data_i.get_operand_a() as u32;
+    let word_b = fu_data_i.get_operand_b() as u32;
+    word_a + word_b
+}
+
+fn subw(fu_data_i: &fu_data_t) -> u32 {
+    let word_a = fu_data_i.get_operand_a() as u32;
+    let word_b = fu_data_i.get_operand_b() as u32;
+    let b_comp: u32 = u32::MAX - word_b + 1;
+
+    //same jazz as in sub, but with 32 bit unsigned ints
+    if word_a >= word_b {
+        word_a - word_b
+    }
+    else {
+        word_a + b_comp
+    }
+
 }
 
 fn xorl(fu_data_i: &fu_data_t) -> u64 {
