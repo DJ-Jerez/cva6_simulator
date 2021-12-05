@@ -3,10 +3,7 @@ use crate::core::include::ariane_pkg::fu_op;
 //adder lul (returns the result and alu_branch_res_o)
 pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
     let mut result: u64 = 0;
-
-    // if fu_data_i.operator == fu_op::ADD {
-    //     result = add(&fu_data_i);
-    // }
+    let mut branch_res_op: bool = true;
 
     match &fu_data_i.operator {
         fu_op::ADD => {result = add(&fu_data_i)},
@@ -32,8 +29,8 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::LTU => {},
         fu_op::GES => {},
         fu_op::GEU => {},
-        fu_op::EQ => {},
-        fu_op::NE => {},
+        fu_op::EQ => {branch_res_op = eq(&fu_data_i)},
+        fu_op::NE => {branch_res_op = !eq(&fu_data_i)},
 
         // jumps
         fu_op::JALR => {}, //jump and link return; return current instruction + i
@@ -43,7 +40,7 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::SLTS => {},
         fu_op::SLTU => {},
     }
-    (result, false)
+    (result, branch_res_op)
 }
 
 
@@ -52,7 +49,11 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 //     (5, true)
 // }
 
-fn add(fu_data_i: &fu_data_t) -> u64 {
+//-----------------------------------------------------//
+//          Basic Arithmetic
+//-----------------------------------------------------//
+
+fn add(fu_data_i: &fu_data_t) -> u64 {  //TODO: handle sum overflow
     fu_data_i.get_operand_a() + fu_data_i.get_operand_b()
 }
 
@@ -89,8 +90,11 @@ fn subw(fu_data_i: &fu_data_t) -> u32 {
     else {
         word_a + b_comp
     }
-
 }
+
+//-----------------------------------------------------//
+//          Logic Operations
+//-----------------------------------------------------//
 
 fn xorl(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() ^ fu_data_i.get_operand_b()
@@ -103,3 +107,20 @@ fn orl(fu_data_i: &fu_data_t) -> u64 {
 fn andl(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() & fu_data_i.get_operand_b()
 }
+
+//-----------------------------------------------------//
+//                      Shifts
+//-----------------------------------------------------//
+
+
+//-----------------------------------------------------//
+//                    Comparisons
+//-----------------------------------------------------//
+
+fn eq(fu_data_i: &fu_data_t) -> bool {
+    let result = sub(&fu_data_t);
+    result == 0
+}
+//-----------------------------------------------------//
+//                      Jumps
+//-----------------------------------------------------//
