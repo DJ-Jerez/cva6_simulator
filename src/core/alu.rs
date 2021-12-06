@@ -25,9 +25,9 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::SLLW => {},
 
         // comparisons
-        fu_op::LTS => {},
+        fu_op::LTS => {branch_res_op = lts(&fu_data_i)},
         fu_op::LTU => {branch_res_op = ltu(&fu_data_i)},
-        fu_op::GES => {},
+        fu_op::GES => {branch_res_op = !lts(&fu_data_i)},
         fu_op::GEU => {branch_res_op = !ltu(&fu_data_i)},
         fu_op::EQ => {branch_res_op = eq(&fu_data_i)},
         fu_op::NE => {branch_res_op = !eq(&fu_data_i)},
@@ -130,6 +130,20 @@ fn ltu(fu_data_i: &fu_data_t) -> bool {
     fu_data_i.get_operand_a() < fu_data_i.get_operand_b()
 }
 
+
+fn lts(fu_data_i: &fu_data_t) -> bool {
+    const NEGATIVE_THRESHOLD :u64 = u64::MAX >> 1;
+    let a_neg: bool = fu_data_i.get_operand_a() >= NEGATIVE_THRESHOLD;
+    let b_neg: bool = fu_data_i.get_operand_b() >= NEGATIVE_THRESHOLD;
+
+    if (a_neg && !b_neg){
+        true
+    } else if (!a_neg && b_neg){
+        false
+    }else{
+        fu_data_i.get_operand_a() < fu_data_i.get_operand_b()
+    }
+}
 //-----------------------------------------------------//
 //                      Jumps
 //-----------------------------------------------------//
