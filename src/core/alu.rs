@@ -26,9 +26,9 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 
         // comparisons
         fu_op::LTS => {},
-        fu_op::LTU => {},
+        fu_op::LTU => {branch_res_op = ltu(&fu_data_i)},
         fu_op::GES => {},
-        fu_op::GEU => {},
+        fu_op::GEU => {branch_res_op = !ltu(&fu_data_i)},
         fu_op::EQ => {branch_res_op = eq(&fu_data_i)},
         fu_op::NE => {branch_res_op = !eq(&fu_data_i)},
 
@@ -118,8 +118,12 @@ fn andl(fu_data_i: &fu_data_t) -> u64 {
 //-----------------------------------------------------//
 
 fn eq(fu_data_i: &fu_data_t) -> bool {
-    let result = sub(&fu_data_t);
+    let result = sub(&fu_data_i);
     result == 0
+}
+
+fn ltu(fu_data_i: &fu_data_t) -> bool {
+    fu_data_i.get_operand_a() < fu_data_i.get_operand_b()
 }
 //-----------------------------------------------------//
 //                      Jumps
