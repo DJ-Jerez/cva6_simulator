@@ -18,7 +18,7 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
 
         // shifts
         fu_op::SRA => {},
-        fu_op::SRL => {},
+        fu_op::SRL => {result = srl(&fu_data_i)},
         fu_op::SLL => {result = sll(&fu_data_i)},
         fu_op::SRAW => {},
         fu_op::SRLW => {},
@@ -116,6 +116,10 @@ fn sll(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() << fu_data_i.get_operand_b()
 }
 //arithmetic shifts copy the initial leftmost bit and append them to the end; logical shifts always append 0
+
+fn srl(fu_data_i: &fu_data_t) -> u64 {
+    fu_data_i.get_operand_a() >> fu_data_i.get_operand_b()
+}
 
 //-----------------------------------------------------//
 //                    Comparisons
