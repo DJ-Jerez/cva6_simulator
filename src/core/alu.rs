@@ -17,12 +17,12 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::ANDL => {result = andl(&fu_data_i)},
 
         // shifts
-        fu_op::SRA => {result = sra(&fu_data_i)},
-        fu_op::SRL => {result = srl(&fu_data_i)},
         fu_op::SLL => {result = sll(&fu_data_i)},
-        fu_op::SRAW => {},
-        fu_op::SRLW => {},
-        fu_op::SLLW => {},
+        fu_op::SRL => {result = srl(&fu_data_i)},
+        fu_op::SRA => {result = sra(&fu_data_i)},
+        fu_op::SLLW => {result = sllw(&fu_data_i) as u64},
+        fu_op::SRLW => {result = srlw(&fu_data_i) as u64},
+        fu_op::SRAW => {result = sraw(&fu_data_i) as u64},
 
         // comparisons
         fu_op::LTS => {branch_res_op = lts(&fu_data_i)},
@@ -134,6 +134,36 @@ fn sra(fu_data_i: &fu_data_t) -> u64 {
         }
     }
     result
+}
+
+fn sllw(fu_data_i: &fu_data_t) -> u32 {
+    let op_a: u32 = fu_data_i.get_operand_a() as u32;
+    let op_b: u32 = fu_data_i.get_operand_b() as u32;
+
+    op_a << op_b
+}
+
+fn srlw(fu_data_i: &fu_data_t) -> u32 {
+    let op_a: u32 = fu_data_i.get_operand_a() as u32;
+    let op_b: u32 = fu_data_i.get_operand_b() as u32;
+
+    op_a >> op_b
+}
+
+fn sraw(fu_data_i: &fu_data_t) -> u32 {
+    const FIRST_BIT_THRESHOLD :u32 = u32::MAX >> 1;
+    const FIRST_BIT_1 :u32 = u32::MAX - FIRST_BIT_THRESHOLD;
+    let first_bit: bool = fu_data_i.get_operand_a() as u32 > FIRST_BIT_THRESHOLD;
+    let mut result: u32 = fu_data_i.get_operand_a() as u32;
+
+    for i in 0..fu_data_i.get_operand_b() as u32 {
+        result >>= 1;
+        if first_bit {
+            result += FIRST_BIT_1;
+        }
+    }
+    result
+
 }
 
 //-----------------------------------------------------//
