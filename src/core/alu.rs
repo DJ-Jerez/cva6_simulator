@@ -140,9 +140,9 @@ fn lts(fu_data_i: &fu_data_t) -> bool {
     let a_neg: bool = fu_data_i.get_operand_a() >= NEGATIVE_THRESHOLD;
     let b_neg: bool = fu_data_i.get_operand_b() >= NEGATIVE_THRESHOLD;
 
-    if (a_neg && !b_neg){
+    if a_neg && !b_neg{
         true
-    } else if (!a_neg && b_neg){
+    } else if !a_neg && b_neg{
         false
     }else{
         fu_data_i.get_operand_a() < fu_data_i.get_operand_b()
