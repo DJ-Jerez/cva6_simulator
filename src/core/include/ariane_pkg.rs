@@ -5,6 +5,8 @@
 const XLEN: u8 = 64;
 
 #[derive(Eq, PartialEq)]
+
+
 pub enum fu_op { //literally copy pasted from ariane_pkg
     // basic ALU op
     ADD, SUB, ADDW, SUBW,
@@ -39,10 +41,6 @@ impl fu_data_t {
             imm: Imm
         }
     }
-
-    // pub fn get_operator(&self) -> fu_op {
-    //     return self.operator;
-    // }
 
     pub fn get_operand_a(&self) -> u64 {
         self.operand_a
