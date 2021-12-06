@@ -127,7 +127,7 @@ fn sra(fu_data_i: &fu_data_t) -> u64 {
     let first_bit: bool = fu_data_i.get_operand_a() > FIRST_BIT_THRESHOLD;
     let mut result: u64 = fu_data_i.get_operand_a();
 
-    for i in 0..fu_data_i.get_operand_b() {
+    for _ in 0..fu_data_i.get_operand_b() {
         result >>= 1;
         if first_bit {
             result += FIRST_BIT_1;
@@ -156,7 +156,7 @@ fn sraw(fu_data_i: &fu_data_t) -> u32 {
     let first_bit: bool = fu_data_i.get_operand_a() as u32 > FIRST_BIT_THRESHOLD;
     let mut result: u32 = fu_data_i.get_operand_a() as u32;
 
-    for i in 0..fu_data_i.get_operand_b() as u32 {
+    for _ in 0..fu_data_i.get_operand_b() as u32 {
         result >>= 1;
         if first_bit {
             result += FIRST_BIT_1;
