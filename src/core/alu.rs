@@ -17,7 +17,7 @@ pub fn tick (fu_data_i: fu_data_t) -> (u64, bool) {
         fu_op::ANDL => {result = andl(&fu_data_i)},
 
         // shifts
-        fu_op::SRA => {},
+        fu_op::SRA => {result = sra(&fu_data_i)},
         fu_op::SRL => {result = srl(&fu_data_i)},
         fu_op::SLL => {result = sll(&fu_data_i)},
         fu_op::SRAW => {},
@@ -121,6 +121,21 @@ fn srl(fu_data_i: &fu_data_t) -> u64 {
     fu_data_i.get_operand_a() >> fu_data_i.get_operand_b()
 }
 
+fn sra(fu_data_i: &fu_data_t) -> u64 {
+    const FIRST_BIT_THRESHOLD :u64 = u64::MAX >> 1;
+    const FIRST_BIT_1 :u64 = u64::MAX - FIRST_BIT_THRESHOLD;
+    let first_bit: bool = fu_data_i.get_operand_a() > FIRST_BIT_THRESHOLD;
+    let mut result: u64 = fu_data_i.get_operand_a();
+
+    for i in 0..fu_data_i.get_operand_b() {
+        result >>= 1;
+        if first_bit {
+            result += FIRST_BIT_1;
+        }
+    }
+    result
+}
+
 //-----------------------------------------------------//
 //                    Comparisons
 //-----------------------------------------------------//
@@ -137,8 +152,8 @@ fn ltu(fu_data_i: &fu_data_t) -> bool {
 
 fn lts(fu_data_i: &fu_data_t) -> bool {
     const NEGATIVE_THRESHOLD :u64 = u64::MAX >> 1;
-    let a_neg: bool = fu_data_i.get_operand_a() >= NEGATIVE_THRESHOLD;
-    let b_neg: bool = fu_data_i.get_operand_b() >= NEGATIVE_THRESHOLD;
+    let a_neg: bool = fu_data_i.get_operand_a() > NEGATIVE_THRESHOLD;
+    let b_neg: bool = fu_data_i.get_operand_b() > NEGATIVE_THRESHOLD;
 
     if a_neg && !b_neg{
         true
