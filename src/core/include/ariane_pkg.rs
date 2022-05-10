@@ -3,7 +3,7 @@
 #![allow(non_camel_case_types)]
 
 const XLEN: u8 = 64;
-const INSTR_PER_FETCH: u8 = 1;
+pub const INSTR_PER_FETCH: u8 = 1;
 
 #[derive(Eq, PartialEq)]
 
