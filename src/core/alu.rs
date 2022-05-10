@@ -122,16 +122,15 @@ fn srl(fu_data_i: &fu_data_t) -> u64 {
 }
 
 fn sra(fu_data_i: &fu_data_t) -> u64 {
-    const FIRST_BIT_THRESHOLD :u64 = u64::MAX >> 1;
-    const FIRST_BIT_1 :u64 = u64::MAX - FIRST_BIT_THRESHOLD;
-    let first_bit: bool = fu_data_i.get_operand_a() > FIRST_BIT_THRESHOLD;
+    const NEGATIVE_THRESHOLD :u64 = u64::MAX >> 1;
+    let SIGNED_FIRST_BITS :u64 = u64::MAX << (64 - fu_data_i.get_operand_b());
+
+    let negative: bool = fu_data_i.get_operand_a() > NEGATIVE_THRESHOLD;
     let mut result: u64 = fu_data_i.get_operand_a();
 
-    for _ in 0..fu_data_i.get_operand_b() {
-        result >>= 1;
-        if first_bit {
-            result += FIRST_BIT_1;
-        }
+    result >>= fu_data_i.get_operand_b();
+    if negative{
+        result += SIGNED_FIRST_BITS;
     }
     result
 }
