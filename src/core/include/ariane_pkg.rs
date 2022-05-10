@@ -3,6 +3,7 @@
 #![allow(non_camel_case_types)]
 
 const XLEN: u8 = 64;
+const INSTR_PER_FETCH: u8 = 1;
 
 #[derive(Eq, PartialEq)]
 
@@ -52,5 +53,35 @@ impl fu_data_t {
 
     pub fn get_imm(&self) -> u64 {
         self.imm
+    }
+}
+
+pub struct bht_update_t {
+    pub valid: bool,
+    pub pc: u64,
+    pub taken: bool
+}
+
+impl bht_update_t {
+    pub fn new(valid: bool, pc: u64, taken: bool) -> bht_update_t{
+        bht_update_t{
+            valid,
+            pc,
+            taken
+        }
+    }
+}
+
+pub struct bht_prediction_t {
+    pub valid: bool,
+    pub taken: bool
+}
+
+impl bht_prediction_t {
+    pub fn new(valid: bool, taken: bool) -> bht_prediction_t{
+        bht_prediction_t{
+            valid,
+            taken
+        }
     }
 }
