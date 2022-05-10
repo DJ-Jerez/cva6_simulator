@@ -85,3 +85,33 @@ impl bht_prediction_t {
         }
     }
 }
+
+pub struct btb_update_t {
+    pub valid: bool,
+    pub pc: u64,
+    pub target_address: u64
+}
+
+impl btb_update_t{
+    pub fn new(valid: bool, pc: u64, target_address: u64) -> btb_update_t{
+        btb_update_t{
+            valid,
+            pc,
+            target_address
+        }
+    }
+}
+
+pub struct btb_prediction_t {
+    pub valid: bool,
+    pub target_address: u64
+}
+
+// need to implement copy trait
+impl btb_prediction_t {
+    pub fn new(valid: bool, target_address: u64) -> btb_prediction_t{
+        btb_prediction_t{
+            valid, target_address
+        }
+    }
+}
