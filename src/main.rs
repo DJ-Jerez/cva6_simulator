@@ -10,11 +10,14 @@ use crate::core::{
 };
 
 fn main() {
-    let fu_op_a = ariane_pkg::fu_op::ADD;
-    let opers = fu_data_t::new(fu_op_a, 3, 2, 0);
-    //println!("opers: {:?}", opers);
+    // let fu_op_a = ariane_pkg::fu_op::ADD;
+    // let opers = fu_data_t::new(fu_op_a, 3, 2, 0);
+    // //println!("opers: {:?}", opers);
 
-    let data: (u64, bool) = alu::tick(opers);
+    // let data: (u64, bool) = alu::tick(opers);
 
-    println!("{:?}", data);
+    // println!("{:?}", data);
+    // let x: u64 = 9;
+    // let y = log_2(&x);
+    // println!("{}", y);
 }
