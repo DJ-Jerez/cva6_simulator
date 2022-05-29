@@ -4,6 +4,7 @@
 
 const XLEN: u8 = 64;
 pub const INSTR_PER_FETCH: u8 = 1;
+pub const RVC: bool = false; //RVC is not set
 
 #[derive(Eq, PartialEq)]
 
