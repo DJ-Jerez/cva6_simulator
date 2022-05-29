@@ -102,6 +102,7 @@ impl btb_update_t{
     }
 }
 
+#[derive(Copy, Clone)]
 pub struct btb_prediction_t {
     pub valid: bool,
     pub target_address: u64
