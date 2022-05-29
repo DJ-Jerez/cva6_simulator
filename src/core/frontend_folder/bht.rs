@@ -8,16 +8,17 @@ use crate::core::include::ariane_pkg::RVC;
 
 // This function returns the ceiling of a log base 2 number
 const fn num_bits<T>() -> usize { std::mem::size_of::<T>()  * 8 }
+
 pub fn clog2(x: &u64) -> u64 { 
     assert!(x > &0);
     let ans = num_bits::<u64>() as u64 - x.leading_zeros() as u64 - 1;
     let y = x << x.leading_zeros() + 1;
 
     if y == 0 {
-        return ans;
+        ans
     }
     else {
-        return ans + 1;
+        ans + 1
     }
 }
 
@@ -25,9 +26,9 @@ pub fn clog2(x: &u64) -> u64 {
 const NR_ENTRIES: u64 = 1024;
 const OFFSET: u64 = if RVC { 1 } else { 2 };
 const NR_ROWS: u64 = NR_ENTRIES / INSTR_PER_FETCH as u64;
-const ROW_ADDR_BITS: u64  = clog2(&(INSTR_PER_FETCH as u64)); //should be 0; used to index the row
-const ROW_INDEX_BITS: u64 = if RVC { clog2(&(INSTR_PER_FETCH as u64)) } else { 1 };
-const PREDICTION_BITS: u64 = clog2(&NR_ROWS) + OFFSET + ROW_ADDR_BITS;
+const ROW_ADDR_BITS: u64  = 0; //clog2(&(INSTR_PER_FETCH as u64));
+const ROW_INDEX_BITS: u64 = if RVC { 0 /*clog2(&(INSTR_PER_FETCH as u64))*/ } else { 1 };
+const PREDICTION_BITS: u64 = 10 + OFFSET + ROW_ADDR_BITS; //10 is clog2(NR_ROWS)
 
 
 pub struct bht_row {
@@ -56,8 +57,9 @@ impl bht {
 
 
         let index = vpc_i;
-        let update_pc = bht_update_i.pc[PREDICTION_BITS - 1:ROW_ADDR_BITS + OFFSET];
+        // let update_pc = bht_update_i.pc[PREDICTION_BITS - 1:ROW_ADDR_BITS + OFFSET];
         let mut x: f32= 5.5;
         x.log10();
+        bht_prediction_t::new(true,true)
     }
 }
