@@ -102,9 +102,9 @@ impl bht {
         self.update(&bht_update_i, update_pc, debug_mode_i);
 
         if !reset_ni {
-            for i in 0..NR_ROWS { //not sure out to implement update_row_index with current structure
+            for i in 0..NR_ROWS {
                     self.bht_q[i as usize].valid = false;
-                    self.bht_q[i as usize].saturation_counter = 0; //confused on SV what <= '0 means
+                    self.bht_q[i as usize].saturation_counter = 0;
             }
         }
         else {
@@ -116,6 +116,9 @@ impl bht {
             }
         }
         self.bht_q = self.bht_d;
-        bht_prediction_t::new(false, false) //confused what to return
+        let valid: bool = self.bht_q[vpc_i as usize].valid;
+        let taken: bool = if self.bht_q[vpc_i as usize].saturation_counter < 1 { true } else { false };
+        
+        bht_prediction_t::new(valid, taken)
     }
 }
