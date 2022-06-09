@@ -53,12 +53,26 @@ impl btb {
         self.update(&btb_update_i, update_pc);
 
         //do sequential operation
-        // if !reset_ni {
-        //
-        // }
+        if !reset_ni {
+            for mut row in self.btb_q {
+                row.valid = false;
+                row.target_address = 0;
+            }
+        }
+        else {
+            if flush_i {
+                for mut row in self.btb_q {
+                    row.valid = false;
+                }
+            } else {
+                self.btb_q = self.btb_d;
+                self.btb_d = [btb_prediction_t::new(false, 0); NR_ROWS as usize]
+
+            }
+        }
 
         //give prediction
-        self.btb_d[index as usize]
+        self.btb_q[index as usize]
 
         //stub
         // btb_prediction_t::new(false, 0)
