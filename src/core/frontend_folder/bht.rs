@@ -116,6 +116,7 @@ impl bht {
             }
             else {
                 self.bht_q = self.bht_d;
+                self.bht_d = [bht_row::new(false, 0); NR_ROWS as usize];
             }
         }
         let valid: bool = self.bht_q[vpc_i as usize].valid;
