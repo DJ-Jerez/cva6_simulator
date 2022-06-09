@@ -110,12 +110,14 @@ impl bht {
         else {
             if flush_i {
                 for i in 0..NR_ROWS {
-                    self.bht_d[i as usize].valid = false;
-                    self.bht_d[i as usize].saturation_counter = 2;
+                    self.bht_q[i as usize].valid = false;
+                    self.bht_q[i as usize].saturation_counter = 2;
                 }
             }
+            else {
+                self.bht_q = self.bht_d;
+            }
         }
-        self.bht_q = self.bht_d;
         let valid: bool = self.bht_q[vpc_i as usize].valid;
         let taken: bool = if self.bht_q[vpc_i as usize].saturation_counter < 1 { true } else { false };
         
